@@ -70,9 +70,16 @@ st.markdown("""
 if "engine" not in st.session_state:
     st.session_state.engine = MicrogridEngine(seed=42)
 
+# Resolve Groq key from environment or Streamlit Cloud Secrets
+secret_key = ""
+try:
+    secret_key = st.secrets.get("GROQ_API_KEY", "")
+except Exception:
+    pass
+default_groq_key = os.getenv("GROQ_API_KEY", "") or secret_key
+
 if "agent" not in st.session_state:
-    groq_key = os.getenv("GROQ_API_KEY", "")
-    st.session_state.agent = DispatchAgent(st.session_state.engine, api_key=groq_key)
+    st.session_state.agent = DispatchAgent(st.session_state.engine, api_key=default_groq_key)
 
 if "agent_logs" not in st.session_state:
     st.session_state.agent_logs = []
@@ -95,7 +102,7 @@ with st.sidebar:
     
     # Groq API Configuration
     st.subheader("Groq Intelligence Gateway")
-    current_key = os.getenv("GROQ_API_KEY", "")
+    current_key = default_groq_key
     api_key_input = st.text_input(
         "Groq API Key",
         value=agent.api_key or current_key,
