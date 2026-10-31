@@ -111,6 +111,10 @@ with st.sidebar:
     )
     if api_key_input != agent.api_key:
         agent.update_api_key(api_key_input)
+        if len(st.session_state.agent_logs) <= 1:
+            engine.reset()
+            st.session_state.agent_logs.clear()
+            st.session_state.agent_logs.append(agent.step())
         st.rerun()
 
     # Dynamic model selection
