@@ -35,6 +35,8 @@ htmlcov/
 *.log
 *.tmp
 *.pptx
+slides_individual/
+generate_deck.py
 .DS_Store
 Thumbs.db
 
