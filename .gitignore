@@ -34,6 +34,7 @@ htmlcov/
 # Logs & temp files
 *.log
 *.tmp
+*.pptx
 .DS_Store
 Thumbs.db
 
